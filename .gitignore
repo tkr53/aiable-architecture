@@ -1,0 +1,15 @@
+# Go
+*.exe
+*.test
+*.out
+go.sum
+/capabilities/*/impl/*.so
+
+# rapid が失敗例を永続化するディレクトリ
+testdata/rapid/
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
