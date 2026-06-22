@@ -5,7 +5,7 @@
 go.sum
 /capabilities/*/impl/*.so
 
-# rapid が失敗例を永続化するディレクトリ
+# Directory where rapid persists failing examples / rapid が失敗例を永続化するディレクトリ
 testdata/rapid/
 
 # OS / editor
@@ -13,3 +13,6 @@ testdata/rapid/
 *.swp
 .idea/
 .vscode/
+
+# Local Claude Code state (not the plugin itself, which lives in .claude-plugin/, skills/, commands/)
+.claude/

@@ -154,4 +154,4 @@ func FuzzCountInvariant(f *testing.F) { f.Fuzz(rapid.MakeFuzz(propCountInvariant
 ファズや乱択探索で反例が出たら、rapid が最小化した入力を取り、incident に紐づく**例示ベースの
 回帰テスト**として固定する。PBT で探索 → 反例を最小化 → 例示テストへ蒸留 → incident に結線、
 という流れである。これにより「同じ問題を二度踏まない」が決定的なテストで保証される。蒸留の
-具体的な書式は `incident-format.md` に従う。
+具体的な書式は `incident-format.ja.md` に従う。

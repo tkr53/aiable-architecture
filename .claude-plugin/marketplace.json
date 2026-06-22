@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "aiable-architecture",
+  "description": "Aiable Architecture — a discipline for building software where AI writes the code and humans own only the spec and tests.",
+  "owner": {
+    "name": "tkr53",
+    "url": "https://github.com/tkr53"
+  },
+  "plugins": [
+    {
+      "name": "aiable-architecture",
+      "description": "Runs a per-capability spec → test → impl → incident flow: humans approve and freeze traceable tests before any implementation, AI generates disposable impl to satisfy them, and every failure is wired to a regression test. Provides the skill plus /aiable-spec, /aiable-test, /aiable-impl, /aiable-incident commands.",
+      "source": "./",
+      "category": "development",
+      "author": {
+        "name": "Aiable Architecture contributors",
+        "email": "ryo2suke@gmail.com"
+      },
+      "homepage": "https://github.com/tkr53/aiable-architecture"
+    }
+  ]
+}

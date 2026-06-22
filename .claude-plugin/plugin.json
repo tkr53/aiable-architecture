@@ -1,0 +1,19 @@
+{
+  "name": "aiable-architecture",
+  "version": "0.1.0",
+  "description": "Discipline for building software where AI writes the code and humans own only the spec and tests. Runs a per-capability spec → test → impl → incident flow with frozen, traceable tests.",
+  "author": {
+    "name": "Aiable Architecture contributors",
+    "email": "ryo2suke@gmail.com"
+  },
+  "homepage": "https://github.com/tkr53/aiable-architecture",
+  "repository": "https://github.com/tkr53/aiable-architecture",
+  "license": "MIT",
+  "keywords": [
+    "spec-driven",
+    "tdd",
+    "property-based-testing",
+    "ai-architecture",
+    "incident-driven"
+  ]
+}

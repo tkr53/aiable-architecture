@@ -55,7 +55,7 @@ examples:
 ```
 
 property の場合は kind を property とし、normative ブロックに property-type・generator・
-不変条件を書く。型ごとの書式は `property-types.md` に従う。
+不変条件を書く。型ごとの書式は `property-types.ja.md` に従う。
 
 ```markdown
 ### AC-002  登録は件数を保存する
