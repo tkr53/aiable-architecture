@@ -1,23 +1,29 @@
 # Intent: user-registration
 
-## 目的
-email と password を持つユーザーの新規登録を受け付ける。重複登録を防ぎ、保存される
-認証情報が安全であることを保証する。
+> 日本語版は [intent.ja.md](intent.ja.md) を参照。
 
-## 背景
-このアーキテクチャの手本として最小限の現実味を持つ題材。example 条件（重複拒否）と
-property の複数型（不変量・順序非依存・往復性の否定）を自然に含む。
+## Purpose
+Accept new registration of users that have an email and a password. Prevent duplicate registration
+and guarantee that the stored credentials are safe.
 
-## 非機能要件
-- パスワードは平文で保存しない。保存値からの復元は不可能であること。
-- 同一 email の二重登録を、表記揺れ（大文字・前後空白）を含めて防ぐ。
+## Background
+A subject with minimal realism as a model for this architecture. It naturally includes an example
+criterion (duplicate rejection) and multiple property types (invariant, order-independence, the
+negation of round-trip).
 
-## トレードオフの決定記録
-- email の同一性は「正規化後（小文字化・前後空白除去）」で判定する。表記をそのまま保存
-  しつつ、判定だけ正規化する。理由は、ユーザーの入力表記を尊重しながら重複を防ぐため。
-- パスワードのハッシュ方式の具体（bcrypt 等）はこの capability の仕様では固定せず、impl に
-  委ねる。仕様が要求するのは「平文非保存」「復元不能」「同一入力でも保存値が毎回異なる
-  （ソルトの存在）」という観測可能な性質だけである。
+## Non-functional requirements
+- Passwords must not be stored in plaintext. Restoration from the stored value must be impossible.
+- Prevent double registration of the same email, including notational variation (case, surrounding
+  whitespace).
 
-## 未解決質問
-（空であること。残っている限り承認に進めない）
+## Trade-off decision record
+- Email identity is judged "after normalization (lowercasing, trimming surrounding whitespace)". Store
+  the notation as-is, but normalize only for the judgment. The reason is to prevent duplicates while
+  respecting the user's input notation.
+- The specifics of the password hashing scheme (bcrypt, etc.) are not fixed in this capability's spec but
+  delegated to the impl. What the spec requires is only the observable properties of "not stored in
+  plaintext", "not restorable", and "the stored value differs every time even for the same input (the
+  existence of a salt)".
+
+## Open questions
+(Must be empty. As long as any remain, you cannot proceed to approval.)

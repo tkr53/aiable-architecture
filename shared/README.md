@@ -1,10 +1,12 @@
 # shared/
 
-ここに置けるのは、どの capability の仕様にも属さない、純粋に技術的で振る舞いを持たない
-要素（横断的な型定義、フォーマット定数など）だけである。
+What may live here is limited to purely technical, behavior-free elements that belong to no
+capability's spec (cross-cutting type definitions, format constants, etc.).
 
-判定基準は「これは spec/test を持つべきか?」である。持つべきなら、それは振る舞いであり、
-必ずどこかの capability に属させる。shared に逃がしてよいのは、テストする必要のないものだけ。
+> 日本語版は [README.ja.md](README.ja.md) を参照。
 
-この方針を緩めると局所性が崩れ、AI が一機能を直すために shared 全体を読む羽目になる。
-shared は意図的に痩せたままに保つこと。現在この実例には shared 要素は無い。
+The test is "should this have a spec/test?". If it should, it is behavior, and it must belong to
+some capability. The only things you may offload to shared are those that do not need to be tested.
+
+Loosening this policy collapses locality and forces the AI to read all of shared just to fix one
+feature. Keep shared deliberately thin. This worked example currently has no shared elements.

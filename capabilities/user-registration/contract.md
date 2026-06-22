@@ -1,27 +1,29 @@
 # Contract: user-registration
 
-この capability が外部に約束する境界。他の capability はこの contract のみを参照してよく、
-impl を直接参照してはならない。
+The boundary this capability promises to the outside. Other capabilities may reference only this
+contract and must not reference the impl directly.
 
-## 提供する操作
+> 日本語版は [contract.ja.md](contract.ja.md) を参照。
+
+## Provided operations
 
 ### Register(store, request) error
-- 入力: Request{ Email string, Password string }
-- 出力: error
-  - nil: 登録成功
-  - ErrEmailTaken ("EMAIL_TAKEN"): 正規化後に同一 email が登録済み
-  - ErrValidationFailed ("VALIDATION_ERROR"): email が無効（空・@ なし）または password が空
+- input: Request{ Email string, Password string }
+- output: error
+  - nil: registration succeeded
+  - ErrEmailTaken ("EMAIL_TAKEN"): an email identical after normalization is already registered
+  - ErrValidationFailed ("VALIDATION_ERROR"): the email is invalid (empty / no @) or the password is empty
 
-## 保証する性質
-- 同一性は email の正規化（小文字化・前後空白除去）後で判定する。
-- 失敗時はストアを変更しない。
-- password は平文で保存されず、保存値から復元できない。
+## Guaranteed properties
+- Identity is judged after email normalization (lowercasing, trimming surrounding whitespace).
+- On failure, the store is not modified.
+- Passwords are not stored in plaintext and cannot be restored from the stored value.
 
-## 公開アクセサ（テスト・隣接 capability 向け）
-- Store.Count() int — 登録済み件数
-- Store.NormalizedEmails() map[string]struct{} — 正規化 email の集合
-- Store.StoredHash(normalizedEmail) (string, bool) — 保存ハッシュ（存在検査つき）
+## Public accessors (for tests and adjacent capabilities)
+- Store.Count() int — number of registered entries
+- Store.NormalizedEmails() map[string]struct{} — the set of normalized emails
+- Store.StoredHash(normalizedEmail) (string, bool) — the stored hash (with an existence check)
 
-## 約束しないこと
-- ハッシュ方式の具体（変更されうる。依存しないこと）。
-- レコードの内部表現（impl の私的事項）。
+## What is not promised
+- The specifics of the hashing scheme (may change; do not depend on it).
+- The internal representation of a record (a private matter of the impl).

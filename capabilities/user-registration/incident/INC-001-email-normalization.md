@@ -1,35 +1,38 @@
-# INC-001  正規化漏れで大文字 email の重複登録をすり抜けた
+# INC-001  A normalization gap let a duplicate uppercase email slip through
+
+> 日本語版は [INC-001-email-normalization.ja.md](INC-001-email-normalization.ja.md) を参照。
 
 - status: resolved
 - date: 2026-06-22
 - severity: high
 - related-ac: AC-001
-- regression-test: TestDuplicateEmailRejected（"A@Example.com" と前後空白のケース）
+- regression-test: TestDuplicateEmailRejected (the "A@Example.com" and surrounding-whitespace cases)
 
-## 症状
-本番で同一ユーザーが大文字違いの email "A@Example.com" と "a@example.com" で二重に
-登録できてしまった。
+## Symptom
+In production, the same user could register twice with the case-different emails "A@Example.com" and
+"a@example.com".
 
-## 再現条件
-既に "a@example.com" が登録済みの状態で "A@Example.com" あるいは前後に空白を含む
-" a@example.com" で登録を試みると、重複と判定されず成功してしまう。
+## Reproduction condition
+With "a@example.com" already registered, attempting to register with "A@Example.com" or with leading/trailing
+whitespace as in " a@example.com" is not judged a duplicate and succeeds.
 
-## 根本原因
-重複判定を email の正規化前に行っていた。大文字・前後空白を畳む前に文字列比較したため、
-表記の異なる同一 email を別物と判定した。
+## Root cause
+The duplicate check was done before normalizing the email. Because the string comparison happened before
+folding case and surrounding whitespace, the same email with different notation was judged as distinct.
 
-## 恒久対策
-重複判定を normalize(email)（小文字化・前後空白除去）後に行うよう変更した。あわせて
-acceptance.md の AC-001 の examples 表に "A@Example.com" と前後空白のケースを追加し、
-回帰テストとして凍結した。
+## Permanent countermeasure
+Changed the duplicate check to run after normalize(email) (lowercasing, trimming surrounding whitespace). Also
+added the "A@Example.com" case and the surrounding-whitespace case to AC-001's examples table in acceptance.md,
+and froze them as regression tests.
 
-## 結線
-- acceptance.md: AC-001 の examples 表に大文字ケースと前後空白ケースを追加（trace は凍結）。
-- test: TestDuplicateEmailRejected が当該ケースを赤→緑で確認する。
-- 教訓: 同一性判定を伴う capability では、「何を正規化してから比較するか」を spec の intent に
-  明記し、その正規化を必ず判定の前段に置く。正規化前の比較は本 incident と同型の穴を生む。
+## Wiring
+- acceptance.md: added the uppercase case and the surrounding-whitespace case to AC-001's examples table (the trace is frozen).
+- test: TestDuplicateEmailRejected confirms those cases red→green.
+- lesson: in any capability involving an identity judgment, state in the spec's intent "what is normalized
+  before comparison", and always place that normalization before the judgment. Comparing before normalization
+  produces a hole of the same kind as this incident.
 
-## この incident が手本として示していること
-失敗は必ず一本の回帰テストへ結線する。incident → acceptance.md への条件追加 → test の凍結、
-という逆流が、同じ問題を二度踏まないことをテストで保証する。regression-test フィールドが
-空の incident は未完成である。
+## What this incident demonstrates as a model
+A failure is always wired to one regression test. The back-flow of incident → adding a criterion to acceptance.md
+→ freezing the test guarantees, by a test, that the same problem is never hit twice. An incident with an empty
+regression-test field is incomplete.
